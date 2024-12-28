@@ -5,41 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-<style>
-    body,
-    html {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    #editor {
-        width: 100vw;
-        height: 100vh;
-        padding: 10px;
-        box-sizing: border-box;
-        outline: none;
-        /* 取消被选中时的效果 */
-    }
-
-    @media (prefers-color-scheme: dark) {
-        body {
-            background-color: #121212;
-            color: #ffffff;
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
         }
 
         #editor {
-            background-color: #121212;
-            color: #ffffff;
+            width: 100vw;
+            height: 100vh;
+            padding: 10px;
+            box-sizing: border-box;
+            outline: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
-    }
-</style>
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212;
+                color: #ffffff;
+            }
+
+            #editor {
+                background-color: #121212;
+                color: #ffffff;
+            }
+        }
+    </style>
+</head>
 
 <body>
+
     <div id="editor" contenteditable="true" onkeyup="handleKey(event)">
-        <!-- 在这里输入文本 -->
     </div>
 
     <script>
@@ -72,20 +73,42 @@
         }
 
         function calAmount() {
-            const richTextArea = document.getElementById('richTextArea');
-            const text = richTextArea.innerText;
+            const editor = document.getElementById('editor');
+            const text = editor.innerText; // 获取编辑器中的纯文本内容
             const lines = text.split('\n');
             let sum = 0;
+
+            // 遍历每一行，检查是否包含数字
             lines.forEach(line => {
-                const match = line.match(/(\d+(\.\d+)?)(?!.*\d)/);
+                const match = line.match(/(\d+(\.\d+)?)(?!.*\d)/); // 匹配数字
                 if (match) {
-                    sum += parseFloat(match[0]);
+                    sum += parseFloat(match[0]); // 累加数字
                 }
             });
-            const editor = document.getElementById('editor');
-            editor.innerText += '\nTotal sum: ' + sum;
+
+            // 获取光标的位置
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+
+            // 创建一个新的文本节点来追加计算结果
+            const resultNode = document.createElement('span');
+            resultNode.innerHTML = `Total sum: ${sum}`;
+
+            // 在光标位置插入新的内容
+            range.deleteContents(); // 删除选中的内容（如果有的话）
+            range.insertNode(resultNode); // 插入结果节点
+
+            // 将光标移动到新插入的内容后面
+            const newRange = document.createRange();
+            newRange.setStartAfter(resultNode);
+            newRange.setEndAfter(resultNode);
+
+            const newSelection = window.getSelection();
+            newSelection.removeAllRanges();
+            newSelection.addRange(newRange);
         }
     </script>
+
 </body>
 
 </html>
