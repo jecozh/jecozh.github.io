@@ -1,38 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <style>
-    body, html {
+    body,
+    html {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
     }
+
     #editor {
         width: 100vw;
         height: 100vh;
         padding: 10px;
         box-sizing: border-box;
-        outline: none; /* 取消被选中时的效果 */
+        outline: none;
+        /* 取消被选中时的效果 */
     }
+
     @media (prefers-color-scheme: dark) {
         body {
             background-color: #121212;
             color: #ffffff;
         }
+
         #editor {
             background-color: #121212;
             color: #ffffff;
         }
     }
 </style>
+
 <body>
-    <div id="editor" contenteditable="true">
+    <div id="editor" contenteditable="true" onkeyup="handleKey(event)">
         <!-- 在这里输入文本 -->
     </div>
+
+    <script>
+        let pressCount = 0; // 按下回车的次数
+        let lastPressTime = 0; // 上一次按下回车的时间
+        const timeLimit = 1000; // 1秒
+
+        function handleKey(event) {
+            if (event.key === "Enter") {
+                const currentTime = new Date().getTime(); // 获取当前时间戳
+
+                // 如果距离上一次按下回车的时间超过 1 秒，重置计数器
+                if (currentTime - lastPressTime > timeLimit) {
+                    pressCount = 0; // 重置按下次数
+                }
+
+                // 增加按下次数
+                pressCount++;
+
+                // 更新最后一次按键的时间
+                lastPressTime = currentTime;
+
+                // 如果在1秒内按了三次回车，触发事件
+                if (pressCount === 3) {
+                    calAmount();
+                    console.log("你成功连续按了三次回车!");
+                    pressCount = 0; // 重置按下次数，防止重复触发
+                }
+            }
+        }
+
+        function calAmount() {
+            const richTextArea = document.getElementById('richTextArea');
+            const text = richTextArea.innerText;
+            const lines = text.split('\n');
+            let sum = 0;
+            lines.forEach(line => {
+                const match = line.match(/(\d+(\.\d+)?)(?!.*\d)/);
+                if (match) {
+                    sum += parseFloat(match[0]);
+                }
+            });
+            const editor = document.getElementById('editor');
+            editor.innerText += '\nTotal sum: ' + sum;
+        }
+    </script>
 </body>
+
 </html>
