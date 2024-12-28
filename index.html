@@ -3,24 +3,15 @@
 
 <head>
     <title>WeBill</title>
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        html {
-            height: auto;
-            width: auto;
-        }
-
         body {
-            height: 100%;
-            width: 100%;
-        }
-
-        .editor-container {
+            width: 100dvw;
+            height: 100dvh;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100%;
-            width: 100%;
             background-color: #ffffff;
         }
 
@@ -28,15 +19,14 @@
             width: 100%;
             height: 100%;
             padding: 20px;
-            border-radius: 0;
+            box-sizing: border-box;
             background-color: #ffffff;
-            box-shadow: none;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
 
-        .editor .richTextArea {
+        .richTextArea {
             width: 100%;
-            height: 100%;
+            height: calc(100% - 40px);
             border: none;
             outline: none;
             resize: none;
@@ -44,9 +34,9 @@
             line-height: 1.5;
             color: #333333;
             background-color: #ffffff;
-            border-radius: 0;
             padding: 10px;
             box-sizing: border-box;
+            overflow-y: auto; /* 添加滚动条 */
         }
 
         .editor-toolbar {
@@ -69,16 +59,12 @@
                 color: #ffffff;
             }
 
-            .editor-container {
-                background-color: #333333;
-            }
-
             .editor {
                 background-color: #333333;
                 color: #ffffff;
             }
 
-            .editor .richTextArea {
+            .richTextArea {
                 background-color: #333333;
                 color: #ffffff;
             }
@@ -91,20 +77,16 @@
 </head>
 
 <body>
-    <div class="editor-container">
-        <div class="editor">
-            <div class="editor-toolbar">
-                <button onclick="execCmd('bold')"><b>Bold</b></button>
-                <button onclick="execCmd('italic')"><i>Italic</i></button>
-                <button onclick="execCmd('underline')"><u>Underline</u></button>
-                <button onclick="execCmd('insertOrderedList')">OL</button>
-                <button onclick="execCmd('insertUnorderedList')">UL</button>
-                <button onclick="calAmount()">Cal</button>
-            </div>
-            <div id="richTextArea" contenteditable="true"
-                style="width: 100%; height: 100%; border: none; outline: none; resize: none; font-size: 16px; line-height: 1.5; color: #333333; background-color: #ffffff; border-radius: 0; padding: 10px; box-sizing: border-box;">
-            </div>
+    <div class="editor">
+        <div class="editor-toolbar">
+            <button onclick="execCmd('bold')"><b>Bold</b></button>
+            <button onclick="execCmd('italic')"><i>Italic</i></button>
+            <button onclick="execCmd('underline')"><u>Underline</u></button>
+            <button onclick="execCmd('insertOrderedList')">OL</button>
+            <button onclick="execCmd('insertUnorderedList')">UL</button>
+            <button onclick="calAmount()">Cal</button>
         </div>
+        <div id="richTextArea" contenteditable="true" class="richTextArea"></div>
     </div>
     <script>
         function execCmd(command) {
