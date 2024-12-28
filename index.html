@@ -80,7 +80,7 @@
 
             // 遍历每一行，检查是否包含数字
             lines.forEach(line => {
-                const match = line.match(/(\d+(\.\d+)?)(?!.*\d)/); // 匹配数字
+                const match = line.match(/^(?!Total sum:)\s*(\d+(\.\d+)?)/);
                 if (match) {
                     sum += parseFloat(match[0]); // 累加数字
                 }
@@ -92,7 +92,7 @@
 
             // 创建一个新的文本节点来追加计算结果
             const resultNode = document.createElement('span');
-            resultNode.innerHTML = `Total sum: ${sum}`;
+            resultNode.innerHTML = `sum: ${sum}`;
 
             // 在光标位置插入新的内容
             range.deleteContents(); // 删除选中的内容（如果有的话）
