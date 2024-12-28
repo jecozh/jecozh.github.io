@@ -2,14 +2,25 @@
 <html lang="zh-cn">
 
 <head>
-    <!-- ...existing code... -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeBill</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <style>
+        html {
+            height: auto;
+            width: auto;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
         .editor-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 100%;
+            width: 100%;
             background-color: #ffffff;
         }
 
@@ -51,6 +62,31 @@
             font-size: 16px;
             padding: 5px;
         }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #333333;
+                color: #ffffff;
+            }
+
+            .editor-container {
+                background-color: #333333;
+            }
+
+            .editor {
+                background-color: #333333;
+                color: #ffffff;
+            }
+
+            .editor .richTextArea {
+                background-color: #333333;
+                color: #ffffff;
+            }
+
+            .editor-toolbar button {
+                color: #ffffff;
+            }
+        }
     </style>
 </head>
 
@@ -86,6 +122,13 @@
                 }
             });
             alert('Total sum: ' + sum);
+        }
+
+        // 适配深色模式
+        const richTextArea = document.getElementById('richTextArea');
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            richTextArea.style.backgroundColor = '#333333';
+            richTextArea.style.color = '#ffffff';
         }
     </script>
     <!-- ...existing code... -->
