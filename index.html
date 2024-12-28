@@ -106,12 +106,14 @@
             alert('Total sum: ' + sum);
         }
 
-        // 适配深色模式
-        const richTextArea = document.getElementById('richTextArea');
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            richTextArea.style.backgroundColor = '#333333';
-            richTextArea.style.color = '#ffffff';
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // 适配深色模式
+            const richTextArea = document.getElementById('richTextArea');
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                richTextArea.style.backgroundColor = '#333333';
+                richTextArea.style.color = '#ffffff';
+            }
+        });
     </script>
     <!-- ...existing code... -->
 </body>
