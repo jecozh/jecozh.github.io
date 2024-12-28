@@ -1,0 +1,28 @@
+
+<script>
+    function execCmd(command) {
+        document.execCommand(command, false, null);
+    }
+    function calAmount() {
+        const richTextArea = document.getElementById('richTextArea');
+        const text = richTextArea.innerText;
+        const lines = text.split('\n');
+        let sum = 0;
+        lines.forEach(line => {
+            const match = line.match(/(\d+(\.\d+)?)(?!.*\d)/);
+            if (match) {
+                sum += parseFloat(match[0]);
+            }
+        });
+        alert('Total sum: ' + sum);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 适配深色模式
+        const richTextArea = document.getElementById('richTextArea');
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            richTextArea.style.backgroundColor = '#333333';
+            richTextArea.style.color = '#ffffff';
+        }
+    });
+</script>
